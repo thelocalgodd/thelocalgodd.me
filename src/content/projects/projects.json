@@ -1,0 +1,45 @@
+[
+  {
+    "id": "yappp",
+    "name": "yappp.",
+    "tagline": "random voice chat with strangers",
+    "year": "2026",
+    "category": "voice",
+    "url": "https://yappp.thelocalgodd.me",
+    "description": "A web + mobile voice chat that pairs strangers in a FIFO queue and hands off to peer-to-peer WebRTC audio.",
+    "stack": [
+      "react",
+      "react native",
+      "socket.io",
+      "webrtc",
+      "node",
+      "sqlite"
+    ],
+    "highlights": [
+      "P2P audio via WebRTC — the server is signaling-only.",
+      "FIFO matchmaking which ensures a user never re-pairs the same user."
+    ]
+  },
+  {
+    "id": "beatam-noctem",
+    "name": "Beatam Noctem",
+    "tagline": "tickets, voting & check-in for one event",
+    "year": "2026",
+    "category": "events / payments",
+    "url": "https://beatamnoctem.com",
+    "description": "An event web app where attendees never make an account — tickets are delivered by email + SMS with QR codes, scanned at the door by admins. There's also a voting system for award nominees and an admin dashboard for check-in, audit logs, and analytics.",
+    "stack": [
+      "typescript",
+      "express",
+      "mongodb",
+      "paystack",
+      "hubtel sms",
+      "aws s3",
+      "pdfkit"
+    ],
+    "highlights": [
+      "Account-less ticketing: QR-coded PDFs delivered via email and SMS.",
+      "Award voting with per-email uniqueness and Paystack webhooks for paid orders."
+    ]
+  }
+]

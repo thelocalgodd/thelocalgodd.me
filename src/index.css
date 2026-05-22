@@ -96,3 +96,12 @@ body {
 .prose li { margin-bottom: 0.35rem; }
 .prose hr { border: none; border-top: 1px solid rgba(0,0,0,0.12); margin: 2rem 0; }
 .prose img { max-width: 100%; border-radius: 6px; }
+
+@keyframes dialogFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

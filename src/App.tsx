@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Home from "./pages/Home"
 import Blog from "./pages/Blog"
 import BlogPost from "./pages/BlogPost"
+import Projects from "./pages/Projects"
 import ErrorPage from "./pages/ErrorPage"
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/blog" element={<Blog/>} />
         <Route path="/blog/:slug" element={<BlogPost/>} />
+        <Route path="/projects" element={<Projects/>} />
 
         {/* Error Page */}
         <Route path="*" element={<ErrorPage/>} />

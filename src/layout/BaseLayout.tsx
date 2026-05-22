@@ -1,6 +1,7 @@
 import { useEffect, type PropsWithChildren } from "react"
 import Footer from "../components/Footer"
 import NavBar from "../components/NavBar"
+import Toast from "../components/Toast"
 
 type BaseLayoutProps = PropsWithChildren<{
   title?: string
@@ -16,6 +17,7 @@ function BaseLayout({ children, title = "Vincent." }: BaseLayoutProps) {
       <NavBar />
       <main>{children}</main>
       <Footer />
+      <Toast />
     </div>
   )
 }
