@@ -20,7 +20,7 @@ function Home() {
       </section>
 
       <section className="py-8 font-mono">
-        <p>I build beautiful interfaces and backend systems.</p>{" "}
+        <p>I build beautiful interfaces and systems.</p>{" "}
         <p>experienced in building beautiful, functional web based applications.</p>
       </section>
 
