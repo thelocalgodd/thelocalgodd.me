@@ -41,5 +41,59 @@
       "Account-less ticketing: QR-coded PDFs delivered via email and SMS.",
       "Award voting with per-email uniqueness and Paystack webhooks for paid orders."
     ]
+  },
+  {
+    "id": "shuttleapp",
+    "name": "ShuttleApp",
+    "tagline": "live campus shuttle tracking for KNUST",
+    "year": "2026",
+    "category": "maps / pwa",
+    "url": "https://shuttleapp.localgodd.fun",
+    "description": "An installable PWA that tracks KNUST campus shuttles live on a map, so students know exactly when to head out instead of guessing at a bus stop.",
+    "stack": [
+      "react",
+      "vite",
+      "pwa",
+      "live map"
+    ],
+    "highlights": [
+      "Live shuttle positions on a map, edge-to-edge on iOS with a translucent status bar.",
+      "Installable as a home-screen app with a manifest and offline-friendly shell."
+    ]
+  },
+  {
+    "id": "lucys-perfumery",
+    "name": "Lucy's Perfumery",
+    "tagline": "an online storefront for perfumes",
+    "year": "2026",
+    "category": "e-commerce",
+    "url": "https://lucysperfumery.com",
+    "description": "An e-commerce storefront for original perfumes, diffusers, and body splashes — browse by brand and category, with a full checkout flow.",
+    "stack": [
+      "react",
+      "vite",
+      "vercel"
+    ],
+    "highlights": [
+      "Catalog browsing by brand and category with a fast SPA storefront.",
+      "Deployed on Vercel with a custom domain and OG-ready product pages."
+    ]
+  },
+  {
+    "id": "mula-datahub",
+    "name": "Mula DataHub",
+    "tagline": "live Ghana Stock Exchange data & disclosures",
+    "year": "2026",
+    "category": "fintech / data",
+    "url": "https://mulatechnologies.com",
+    "description": "A data platform tracking live GSE prices, annual and quarterly reports, public notices, and Ghana business news from major local publishers. Currently building out the backend.",
+    "stack": [
+      "react",
+      "vite"
+    ],
+    "highlights": [
+      "Live GSE price tracking alongside company disclosures and reports.",
+      "Aggregates Ghana business news headlines from major local publishers."
+    ]
   }
 ]
