@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://thelocalgodd.me",
   // The Nixpacks Caddyfile only matches a directory when the path ends in "/".
   trailingSlash: "always",
   integrations: [react()],
