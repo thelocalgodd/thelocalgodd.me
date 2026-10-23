@@ -7,28 +7,27 @@ const date = new Date().getFullYear()
 <footer class="mb-6 flex flex-col md:flex-row gap-2 md:gap-0 md:items-start justify-between mt-16 font-mono">
   <div class="text-xs">
     <p class="w-fit">
-      <span
-        tabindex="0"
-        role="note"
-        aria-label="Japanese: live a beautiful life"
-        class="group relative inline-block cursor-default text-green-700 opacity-50 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none"
+      <button
+        type="button"
+        data-motto
+        aria-label="Japanese: live a beautiful life. Click to translate to French."
+        class="group relative inline-block cursor-pointer text-left text-green-700 opacity-50 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none"
       >
-        美しい人生を送る
+        <span data-motto-text>美しい人生を送る</span>
         <span
           role="tooltip"
-          class="pointer-events-none absolute bottom-full left-0 mb-2 w-max max-w-[220px] origin-bottom-left scale-95 rounded-sm border border-green-700/20 bg-[#fdf0da] px-2.5 py-1.5 text-[11px] not-italic text-black opacity-0 shadow-sm transition-all duration-150 ease-out group-hover:scale-100 group-hover:opacity-100 group-focus:scale-100 group-focus:opacity-100"
+          class="pointer-events-none absolute bottom-full left-0 mb-2 w-max max-w-[220px] origin-bottom-left scale-95 rounded-sm border border-green-700/20 bg-[#fdf0da] px-2.5 py-1.5 text-xs not-italic text-black opacity-0 shadow-sm transition-all duration-150 ease-out group-hover:scale-100 group-hover:opacity-100 group-focus:scale-100 group-focus:opacity-100"
         >
-          <span class="text-green-700">jp</span> · live a beautiful life
+          <span class="text-green-700" data-motto-lang>jp</span> · live a beautiful life
         </span>
-      </span>
+      </button>
     </p>
     <ul class="mt-2">
       <li>
         <a
           href="/random"
-          class={isActivePath(Astro.url.pathname, "/random")
-            ? "underline decoration-1 underline-offset-4"
-            : "hover:underline"}
+          class="link-underline"
+          aria-current={isActivePath(Astro.url.pathname, "/random") ? "page" : undefined}
         >
           random cool stuff
         </a>
@@ -39,3 +38,24 @@ const date = new Date().getFullYear()
     <p class="text-xs">© {date} Vincent Kwaku Kpemlie. All rights reserved.</p>
   </div>
 </footer>
+
+<script>
+  const MOTTOS = [
+    { code: "jp", language: "Japanese", next: "French", text: "美しい人生を送る" },
+    { code: "fr", language: "French", next: "Japanese", text: "vivre une belle vie" },
+  ]
+
+  const motto = document.querySelector<HTMLButtonElement>("[data-motto]")
+  const text = motto?.querySelector("[data-motto-text]")
+  const lang = motto?.querySelector("[data-motto-lang]")
+  if (!motto || !text || !lang) throw new Error("Footer: missing motto elements")
+
+  let current = 0
+  motto.addEventListener("click", () => {
+    current = (current + 1) % MOTTOS.length
+    const { code, language, next, text: phrase } = MOTTOS[current]
+    text.textContent = phrase
+    lang.textContent = code
+    motto.setAttribute("aria-label", `${language}: live a beautiful life. Click to translate to ${next}.`)
+  })
+</script>

@@ -1,33 +1,37 @@
 ---
-import Socials from "./Socials"
-import { isActivePath } from "../lib/nav"
+import Socials from "./Socials";
+import { isActivePath } from "../lib/nav";
 
 const links = [
   { label: "blog", href: "/blog/" },
   { label: "projects", href: "/projects/" },
-]
+];
 ---
 
-<nav class="mb-6 flex items-center justify-between rounded-full md:pt-16 font-mono">
-  <div class="flex items-center gap-6">
-    <a class="text-green-600 hover:opacity-75 transition-opacity" href="/">
-      Vincent.
+<nav
+  class="mb-6 flex items-center justify-between rounded-full md:pt-16 font-mono text-sm"
+>
+  <!-- -ml-3 cancels the padding so the text lines up with the page content. -->
+  <div class="-ml-3 flex items-center gap-4 rounded-full border border-green-700/70 px-3 py-1.5">
+    <a class="link-underline text-green-700/70 hover:text-green-700" href="/">
+      vincent.
     </a>
-    <ul class="flex items-center gap-4">
-      {links.map(({ label, href }) => (
-        <li>
-          <a
-            class={isActivePath(Astro.url.pathname, href)
-              ? "underline decoration-1 underline-offset-4"
-              : "hover:opacity-75"}
-            href={href}
-          >
-            {label}
-          </a>
-        </li>
-      ))}
+    <ul class="flex items-center gap-4 border-l border-green-700/30 pl-4">
+      {
+        links.map(({ label, href }) => (
+          <li>
+            <a
+              class="link-underline"
+              aria-current={isActivePath(Astro.url.pathname, href) ? "page" : undefined}
+              href={href}
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </div>
-  <div />
+  <div></div>
   <Socials client:load />
 </nav>

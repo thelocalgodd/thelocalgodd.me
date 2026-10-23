@@ -23,6 +23,7 @@ const projects = defineCollection({
     description: z.string(),
     stack: z.array(z.string()),
     highlights: z.array(z.string()),
+    numbers: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
   }),
 })
 

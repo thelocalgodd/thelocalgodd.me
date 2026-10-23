@@ -7,6 +7,15 @@ export interface Win {
   line: number[]
 }
 
+// Cells each player holds, oldest first.
+export interface Moves {
+  x: number[]
+  o: number[]
+}
+
+// Each player keeps this many marks; a new mark removes their oldest one, so no round ends in a draw.
+export const MARKS_KEPT = 3
+
 const LINES = [
   [0, 1, 2], [3, 4, 5], [6, 7, 8],
   [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -15,8 +24,19 @@ const LINES = [
 
 const CORNERS = [0, 2, 6, 8]
 
-export function emptyBoard(): Board {
-  return Array<Cell>(9).fill(null)
+export function emptyMoves(): Moves {
+  return { x: [], o: [] }
+}
+
+export function opponentOf(mark: Mark): Mark {
+  return mark === 'x' ? 'o' : 'x'
+}
+
+export function toBoard(moves: Moves): Board {
+  const board = Array<Cell>(9).fill(null)
+  for (const i of moves.x) board[i] = 'x'
+  for (const i of moves.o) board[i] = 'o'
+  return board
 }
 
 export function getWinner(board: Board): Win | null {
@@ -30,23 +50,29 @@ export function getWinner(board: Board): Win | null {
   return null
 }
 
-export function isFull(board: Board): boolean {
-  return board.every((cell) => cell !== null)
+// x always starts, so x is to move whenever both have played the same number of times.
+export function nextMark(moves: Moves): Mark {
+  return moves.x.length <= moves.o.length ? 'x' : 'o'
 }
 
-export function play(board: Board, index: number, mark: Mark): Board {
-  if (board[index] !== null) return board
-  const next = board.slice()
-  next[index] = mark
-  return next
+export function play(moves: Moves, index: number, mark: Mark): Moves {
+  if (toBoard(moves)[index] !== null) return moves
+  const own = [...moves[mark], index]
+  return { ...moves, [mark]: own.length > MARKS_KEPT ? own.slice(1) : own }
 }
 
-function freeCells(board: Board): number[] {
-  return board.flatMap((cell, i) => (cell === null ? [i] : []))
+// The cell that disappears on this player's next move.
+export function vanishingCell(moves: Moves, mark: Mark): number | null {
+  if (moves[mark].length < MARKS_KEPT) return null
+  return moves[mark][0]
 }
 
-function winningMove(board: Board, mark: Mark): number | null {
-  return freeCells(board).find((i) => getWinner(play(board, i, mark))?.mark === mark) ?? null
+function freeCells(moves: Moves): number[] {
+  return toBoard(moves).flatMap((cell, i) => (cell === null ? [i] : []))
+}
+
+function winningMove(moves: Moves, mark: Mark): number | null {
+  return freeCells(moves).find((i) => getWinner(toBoard(play(moves, i, mark)))?.mark === mark) ?? null
 }
 
 function pick(cells: number[], random: () => number): number {
@@ -54,17 +80,16 @@ function pick(cells: number[], random: () => number): number {
 }
 
 // A simple player on purpose: it wins or blocks when it can, but a fork beats it.
-export function computerMove(board: Board, mark: Mark, random: () => number = Math.random): number {
-  const free = freeCells(board)
+export function computerMove(moves: Moves, mark: Mark, random: () => number = Math.random): number {
+  const free = freeCells(moves)
   if (free.length === 0) throw new Error('computerMove called on a full board')
 
-  const opponent: Mark = mark === 'x' ? 'o' : 'x'
-  const win = winningMove(board, mark)
+  const win = winningMove(moves, mark)
   if (win !== null) return win
-  const block = winningMove(board, opponent)
+  const block = winningMove(moves, opponentOf(mark))
   if (block !== null) return block
-  if (board[4] === null) return 4
+  if (free.includes(4)) return 4
 
-  const corners = CORNERS.filter((i) => board[i] === null)
+  const corners = CORNERS.filter((i) => free.includes(i))
   return pick(corners.length > 0 ? corners : free, random)
 }

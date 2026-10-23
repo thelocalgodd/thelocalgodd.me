@@ -29,18 +29,15 @@ function Toast() {
       }`}
     >
       <div className="pointer-events-auto flex items-start gap-3 border border-black/15 bg-[#fdf0da] px-4 py-3 shadow-sm font-mono">
-        <div className="text-[12px] leading-relaxed">
-          <p className="text-black/55">
-            <span className="text-green-700">[ </span>psst<span className="text-green-700"> ]</span>
-          </p>
-          <p className="mt-1">
+        <div className="text-xs leading-relaxed">
+          <p>
             i write things —{" "}
             <a
               href="/blog/"
               onClick={dismiss}
-              className="text-green-700 underline-offset-2 hover:underline"
+              className="link-underline text-green-700"
             >
-              check out the blog {"->"}
+              check out the blog ↗
             </a>
           </p>
         </div>

@@ -13,11 +13,7 @@ function ArcadeGame() {
   const [game, setGame] = useState<GameId>("tic-tac-toe")
 
   return (
-    <div>
-      <p className="font-mono text-[11px] mb-3 text-black/55">
-        <span className="text-green-700">{"[ "}</span>while you are here<span className="text-green-700">{" ]"}</span>
-      </p>
-
+    <div className="md:flex md:h-full md:flex-col">
       <div className="mb-5 flex gap-4 font-mono text-sm">
         {GAMES.map(({ id, label }) => (
           <button
@@ -32,7 +28,9 @@ function ArcadeGame() {
         ))}
       </div>
 
-      {game === "tic-tac-toe" ? <TicTacToe /> : <Snake />}
+      <div className="md:min-h-0 md:flex-1">
+        {game === "tic-tac-toe" ? <TicTacToe /> : <Snake />}
+      </div>
     </div>
   )
 }

@@ -6,9 +6,10 @@ import Toast from "../components/Toast"
 
 interface Props {
   title?: string
+  fullscreen?: boolean
 }
 
-const { title = "Vincent." } = Astro.props
+const { title = "Vincent.", fullscreen = false } = Astro.props
 ---
 
 <!doctype html>
@@ -47,9 +48,13 @@ const { title = "Vincent." } = Astro.props
   </head>
 
   <body>
-    <div class="mx-auto w-full max-w-[1000px] px-6 py-6 md:max-w-[800px] lg:max-w-[900px]">
+    <div
+      class={fullscreen
+        ? "mx-auto flex min-h-svh w-full max-w-[1000px] flex-col px-6 py-6 md:h-screen md:max-w-[800px] md:overflow-hidden lg:max-w-[900px]"
+        : "mx-auto w-full max-w-[1000px] px-6 py-6 md:max-w-[800px] lg:max-w-[900px]"}
+    >
       <NavBar />
-      <main><slot /></main>
+      <main class={fullscreen ? "flex flex-1 flex-col md:min-h-0" : undefined}><slot /></main>
       <Footer />
       <Toast client:only="react" />
     </div>

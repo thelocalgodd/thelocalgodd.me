@@ -11,6 +11,7 @@ export interface Project {
   description: string
   stack: string[]
   highlights: string[]
+  numbers: { value: string; label: string }[]
 }
 
 // getCollection does not keep file order; the JSON order is the display order.

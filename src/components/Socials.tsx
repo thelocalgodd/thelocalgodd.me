@@ -23,7 +23,7 @@ function Socials() {
         onClick={() => setSocialsOpen((open) => !open)}
         aria-expanded={socialsOpen}
         aria-haspopup="true"
-        className="text-xs flex gap-1 items-center hover:border px-2 rounded-full border-zinc-300 py-0.5"
+        className="flex gap-1 items-center hover:border px-2 rounded-full border-zinc-300 py-0.5"
       >
         <FaShareNodes />
         <p>socials</p>
@@ -44,10 +44,10 @@ function Socials() {
                 target={href.startsWith("http") ? "_blank" : undefined}
                 rel={href.startsWith("http") ? "noreferrer" : undefined}
                 role="menuitem"
-                className="flex items-center gap-2 px-1 text-xs text-black/80 hover:text-green-700 transition-colors"
+                className="group/link flex items-center gap-2 px-1"
               >
                 <Icon className="shrink-0" />
-                <span>{label}</span>
+                <span className="link-underline">{label}</span>
               </a>
             </li>
           ))}

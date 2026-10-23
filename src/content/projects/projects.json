@@ -2,11 +2,11 @@
   {
     "id": "yappp",
     "name": "yappp.",
-    "tagline": "random voice chat with strangers",
+    "tagline": "Random voice chat with strangers. No accounts, no waiting room.",
     "year": "2026",
     "category": "voice",
     "url": "https://yappp.thelocalgodd.me",
-    "description": "A web + mobile voice chat that pairs strangers in a FIFO queue and hands off to peer-to-peer WebRTC audio.",
+    "description": "Mobile app that pairs people into one-on-one voice conversations through a simple FIFO queue. Once matched, the server only does signaling; the audio itself is peer-to-peer WebRTC. You never get the same person twice.",
     "stack": [
       "react",
       "react native",
@@ -16,18 +16,19 @@
       "sqlite"
     ],
     "highlights": [
-      "P2P audio via WebRTC — the server is signaling-only.",
-      "FIFO matchmaking which ensures a user never re-pairs the same user."
+      "Signaling-only backend; media stays peer-to-peer.",
+      "Permanent exclusion of previous matches.",
+      "Shared queue logic across React and React Native."
     ]
   },
   {
     "id": "beatam-noctem",
     "name": "Beatam Noctem",
-    "tagline": "tickets, voting & check-in for one event",
+    "tagline": "Tickets, voting, and door check-in for one event. No accounts needed.",
     "year": "2026",
     "category": "events / payments",
     "url": "https://beatamnoctem.com",
-    "description": "An event web app where attendees never make an account — tickets are delivered by email + SMS with QR codes, scanned at the door by admins. There's also a voting system for award nominees and an admin dashboard for check-in, audit logs, and analytics.",
+    "description": "Built for Beatam Noctem 4.0. Attendees buy tickets without creating accounts. They receive QR-coded PDFs by email and SMS, then get scanned at the door. The same system handles award voting (one vote per email) and processes payments via Paystack. Processed 20,000+ cedis in ticket and vote sales.",
     "stack": [
       "typescript",
       "express",
@@ -38,18 +39,19 @@
       "pdfkit"
     ],
     "highlights": [
-      "Account-less ticketing: QR-coded PDFs delivered via email and SMS.",
-      "Award voting with per-email uniqueness and Paystack webhooks for paid orders."
+      "Account-less flow from purchase to QR check-in.",
+      "Voting uniqueness enforced per email.",
+      "Paystack webhooks + admin dashboard with audit logs."
     ]
   },
   {
     "id": "shuttleapp",
     "name": "ShuttleApp",
-    "tagline": "live campus shuttle tracking for KNUST",
+    "tagline": "Live shuttle map so KNUST students stop guessing at the stop.",
     "year": "2026",
     "category": "maps / pwa",
     "url": "https://shuttleapp.localgodd.fun",
-    "description": "An installable PWA that tracks KNUST campus shuttles live on a map, so students know exactly when to head out instead of guessing at a bus stop.",
+    "description": "Installable PWA that shows real-time positions of campus shuttles on a map. Students pick a stop or use their location, then see where the buses actually are. Built to feel native on iOS and can be added to the home screen. Roughly 500–1000 active student users.",
     "stack": [
       "react",
       "vite",
@@ -57,43 +59,72 @@
       "live map"
     ],
     "highlights": [
-      "Live shuttle positions on a map, edge-to-edge on iOS with a translucent status bar.",
-      "Installable as a home-screen app with a manifest and offline-friendly shell."
+      "Live shuttle tracking with map markers for stops.",
+      "Installable PWA with offline shell.",
+      "Location-aware stop selection."
     ]
   },
   {
     "id": "lucys-perfumery",
     "name": "Lucy's Perfumery",
-    "tagline": "an online storefront for perfumes",
+    "tagline": "Storefront for original perfumes, diffusers, and body splashes.",
     "year": "2026",
     "category": "e-commerce",
     "url": "https://lucysperfumery.com",
-    "description": "An e-commerce storefront for original perfumes, diffusers, and body splashes — browse by brand and category, with a full checkout flow.",
+    "description": "Fast SPA where people browse by brand and category and check out. Over 1,000 active users. Deployed on a custom domain with shareable product pages.",
     "stack": [
       "react",
       "vite",
       "vercel"
     ],
     "highlights": [
-      "Catalog browsing by brand and category with a fast SPA storefront.",
-      "Deployed on Vercel with a custom domain and OG-ready product pages."
+      "Brand and category browsing with a lightweight React frontend.",
+      "Full checkout flow.",
+      "Custom domain and OG-ready pages."
     ]
   },
   {
     "id": "mula-datahub",
     "name": "Mula DataHub",
-    "tagline": "live Ghana Stock Exchange data & disclosures",
+    "tagline": "Live GSE prices, company disclosures, and Ghana business news in one place.",
     "year": "2026",
     "category": "fintech / data",
     "url": "https://mulatechnologies.com",
-    "description": "A data platform tracking live GSE prices, annual and quarterly reports, public notices, and Ghana business news from major local publishers. Currently building out the backend.",
+    "description": "Platform that brings live Ghana Stock Exchange prices together with annual/quarterly reports, public notices, and headlines from major local publishers. Over 500 active users. Currently expanding the backend and has launched a developer API.",
     "stack": [
       "react",
       "vite"
     ],
     "highlights": [
-      "Live GSE price tracking alongside company disclosures and reports.",
-      "Aggregates Ghana business news headlines from major local publishers."
+      "Live GSE prices next to official filings and reports.",
+      "Aggregated Ghana business news.",
+      "Developer API for real-time prices and structured data."
+    ]
+  },
+  {
+    "id": "ganya",
+    "name": "Ganya",
+    "tagline": "Personal tool (in progress)",
+    "year": "2026",
+    "category": "personal",
+    "url": "https://ganya.thelocalgodd.me",
+    "description": "In-progress personal tool. Subdomain of thelocalgodd.me.",
+    "stack": [],
+    "highlights": [
+      "In progress."
+    ]
+  },
+  {
+    "id": "resu",
+    "name": "Resu",
+    "tagline": "Resume workspace (in progress)",
+    "year": "2026",
+    "category": "personal",
+    "url": "https://resu.thelocalgodd.me",
+    "description": "In-progress resume workspace. Subdomain of thelocalgodd.me.",
+    "stack": [],
+    "highlights": [
+      "In progress."
     ]
   }
 ]
