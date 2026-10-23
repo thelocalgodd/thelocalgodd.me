@@ -7,7 +7,10 @@ const posts = await getAllPosts();
 
 <BaseLayout title="Blog | Vincent.">
   <section class="pt-2">
-    <p class="font-mono text-sm">
+    <h1 class="font-display text-3xl">
+      blog<span class="text-green-700">.</span>
+    </h1>
+    <p class="mt-3 font-mono text-sm">
       i try to write as much as i can about anything i find interesting. this
       blog is of random words, thoughts and ideas.
     </p>
@@ -20,23 +23,27 @@ const posts = await getAllPosts();
       )
     }
 
-    <ul class="">
+    <ul>
       {
         posts.map((post) => (
           <li class="border-b border-black/10">
             <a
               href={`/blog/${post.id}/`}
-              class="group group/link w-full text-left py-2 flex items-baseline gap-5 hover:bg-black/[0.015] transition-colors px-1 -mx-1"
+              class="group group/link -mx-1 flex w-full items-baseline gap-4 px-1 py-3 text-left transition-colors hover:bg-black/[0.03]"
             >
-              <div class="flex-1 min-w-0">
-                <p class="font-display text-lg leading-tight">
-                  <span class="link-underline">{post.data.title}</span>{" "}
-                  <span class="text-black/55 text-xs">
-                    {post.data.description}
-                  </span>
+              <div class="min-w-0 flex-1">
+                <p class="font-display text-base leading-tight">
+                  <span class="link-underline">{post.data.title}</span>
+                </p>
+                <p class="mt-0.5 text-xs text-black/55">
+                  {post.data.description}
+                </p>
+                {/* On small screens the date moves under the description instead of being hidden. */}
+                <p class="mt-1 font-mono text-xs text-black/45 sm:hidden">
+                  {formatPostDate(post.data.date)} · {readingTime(post)}
                 </p>
               </div>
-              <span class="font-mono text-xs text-black/45 group-hover:text-green-700 transition-colors shrink-0 pt-1 hidden sm:inline">
+              <span class="hidden shrink-0 font-mono text-xs text-black/45 transition-colors group-hover:text-green-700 sm:inline">
                 {formatPostDate(post.data.date)} · {readingTime(post)}
               </span>
             </a>

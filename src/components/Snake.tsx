@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react"
 import {
   createSnake,
-  samePoint,
   tick,
   togglePause,
   turn,
   type Direction,
+  type Point,
   type SnakeState,
 } from "../lib/games/snake"
 
@@ -27,9 +27,19 @@ const PAD: { direction: Direction; label: string; className: string }[] = [
   { direction: "right", label: "→", className: "col-start-3 row-start-2" },
 ]
 
+// Each cell is one SIZE-th of the board, so a translate of 100% moves one cell.
+function cellStyle(point: Point) {
+  return {
+    width: `${100 / SIZE}%`,
+    height: `${100 / SIZE}%`,
+    transform: `translate(${point.x * 100}%, ${point.y * 100}%)`,
+  }
+}
+
 function Snake() {
   const [game, setGame] = useState<SnakeState>(() => createSnake(SIZE))
   const [best, setBest] = useState(0)
+  const [round, setRound] = useState(0)
   const boardRef = useRef<HTMLDivElement>(null)
   // Where the current touch gesture started, and whether it has already steered.
   const swipeRef = useRef<{ x: number; y: number; steered: boolean } | null>(null)
@@ -43,6 +53,7 @@ function Snake() {
   function restart() {
     setBest((b) => Math.max(b, game.score))
     setGame(createSnake(SIZE))
+    setRound((r) => r + 1)
     boardRef.current?.focus()
   }
 
@@ -93,9 +104,6 @@ function Snake() {
     else setGame((g) => togglePause(g))
   }
 
-  const occupied = new Set(game.snake.map((p) => `${p.x},${p.y}`))
-  const head = game.snake[0]
-
   const status = {
     ready: "swipe, or press an arrow key or wasd, to start.",
     running: "tap or space to pause.",
@@ -119,25 +127,33 @@ function Snake() {
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={() => { swipeRef.current = null }}
-        className="grid aspect-square w-full max-w-[300px] touch-none select-none border border-black/15 focus:outline-none focus-visible:outline focus-visible:outline-green-700 md:size-[min(100cqw,100cqh)] md:max-w-none"
-        style={{
-          gridTemplateColumns: `repeat(${SIZE}, minmax(0, 1fr))`,
-          gridTemplateRows: `repeat(${SIZE}, minmax(0, 1fr))`,
-        }}
+        className="relative aspect-square w-full max-w-[300px] touch-none select-none overflow-hidden border border-black/15 focus:outline-none focus-visible:outline focus-visible:outline-green-700 md:size-[min(100cqw,100cqh)] md:max-w-none"
       >
-        {Array.from({ length: SIZE * SIZE }, (_, i) => {
-          const point = { x: i % SIZE, y: Math.floor(i / SIZE) }
-          const isHead = samePoint(point, head)
-          const isBody = occupied.has(`${point.x},${point.y}`)
-          const isFood = samePoint(point, game.food)
-          return (
-            <div key={i} className="flex items-center justify-center">
-              {isHead && <span className="h-[90%] w-[90%] bg-green-800" />}
-              {!isHead && isBody && <span className="h-[80%] w-[80%] bg-green-700/80" />}
-              {isFood && <span className="h-[50%] w-[50%] rounded-full bg-black/80" />}
+        <div
+          // A new round remounts the snake, so it does not slide back to the start.
+          key={round}
+          className={`absolute inset-0 transition-opacity duration-300 ${
+            game.status === "over" ? "opacity-40 motion-safe:animate-[shake_300ms_ease-in-out]" : ""
+          }`}
+        >
+          {/* Keyed by place in the body: each part slides into the cell of the part ahead of it. */}
+          {game.snake.map((point, i) => (
+            <div
+              key={i}
+              className="absolute flex items-center justify-center motion-safe:transition-transform motion-safe:ease-linear"
+              style={{ ...cellStyle(point), transitionDuration: `${TICK_MS}ms` }}
+            >
+              <span className={i === 0 ? "h-[90%] w-[90%] bg-green-800" : "h-[80%] w-[80%] bg-green-700/80"} />
             </div>
-          )
-        })}
+          ))}
+        </div>
+        <div
+          key={`${game.food.x},${game.food.y}`}
+          className="absolute flex items-center justify-center"
+          style={cellStyle(game.food)}
+        >
+          <span className="h-[50%] w-[50%] rounded-full bg-black/80 motion-safe:animate-[tileIn_200ms_ease-out_both]" />
+        </div>
       </div>
       </div>
 

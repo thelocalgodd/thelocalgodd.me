@@ -3,33 +3,33 @@ import {
   computerMove,
   emptyMoves,
   getWinner,
+  isDraw,
   nextMark,
   play,
   toBoard,
-  vanishingCell,
   type Moves,
 } from "../lib/games/ticTacToe"
 
 const COMPUTER_DELAY_MS = 350
 
-type Scores = { you: number; me: number }
+type Scores = { you: number; me: number; draws: number }
 
 function scoreMoves(moves: Moves, scores: Scores): Scores {
-  const win = getWinner(toBoard(moves))
-  if (!win) return scores
-  return win.mark === "x" ? { ...scores, you: scores.you + 1 } : { ...scores, me: scores.me + 1 }
+  const board = toBoard(moves)
+  const win = getWinner(board)
+  if (win) return win.mark === "x" ? { ...scores, you: scores.you + 1 } : { ...scores, me: scores.me + 1 }
+  return isDraw(board) ? { ...scores, draws: scores.draws + 1 } : scores
 }
 
 function TicTacToe() {
   const [moves, setMoves] = useState<Moves>(emptyMoves)
-  const [scores, setScores] = useState<Scores>({ you: 0, me: 0 })
+  const [scores, setScores] = useState<Scores>({ you: 0, me: 0, draws: 0 })
   const playAgainRef = useRef<HTMLButtonElement>(null)
 
   const board = toBoard(moves)
   const win = getWinner(board)
-  const over = win !== null
+  const over = win !== null || isDraw(board)
   const computerTurn = !over && nextMark(moves) === "o"
-  const fading = over ? null : vanishingCell(moves, nextMark(moves))
 
   useEffect(() => {
     if (!computerTurn) return
@@ -52,7 +52,7 @@ function TicTacToe() {
     setScores((s) => scoreMoves(next, s))
   }
 
-  const result = win?.mark === "x" ? "you win." : "i win."
+  const result = !win ? "draw." : win.mark === "x" ? "you win." : "i win."
   const status = computerTurn ? "thinking..." : "your move. you are x."
 
   return (
@@ -63,17 +63,19 @@ function TicTacToe() {
       <div className="md:min-h-0 md:flex-1 md:[container-type:size]">
       <div className="relative grid w-fit grid-cols-3 grid-rows-3 border border-black/15 md:size-[min(100cqw,100cqh)]">
         {board.map((cell, i) => {
-          const inWin = win?.line.includes(i) ?? false
+          const winStep = win?.line.indexOf(i) ?? -1
           return (
             <button
               key={i}
               type="button"
               onClick={() => choose(i)}
               disabled={over || computerTurn || cell !== null}
-              aria-label={`row ${Math.floor(i / 3) + 1}, column ${(i % 3) + 1}, ${cell ?? "empty"}${fading === i ? ", disappears next" : ""}`}
-              className={`flex h-14 w-14 items-center justify-center border border-black/10 text-xl transition-colors enabled:hover:bg-black/[0.03] focus-visible:outline focus-visible:outline-green-700 md:h-auto md:w-auto md:text-[min(10cqw,10cqh)] ${inWin ? "bg-green-700/10" : ""} ${cell === "o" ? "text-green-700" : ""} ${fading === i ? "opacity-35" : ""}`}
+              aria-label={`row ${Math.floor(i / 3) + 1}, column ${(i % 3) + 1}, ${cell ?? "empty"}`}
+              className={`flex h-14 w-14 items-center justify-center border border-black/10 text-xl transition-colors enabled:hover:bg-black/[0.03] focus-visible:outline focus-visible:outline-green-700 md:h-auto md:w-auto md:text-[min(10cqw,10cqh)] ${winStep >= 0 ? "bg-green-700/10 motion-safe:animate-[winCell_400ms_ease-out_both]" : ""} ${cell === "o" ? "text-green-700" : ""}`}
+              // The winning cells light up one after the other.
+              style={winStep >= 0 ? { animationDelay: `${winStep * 120}ms` } : undefined}
             >
-              {cell}
+              {cell && <span className="motion-safe:animate-[markIn_160ms_ease-out_both]">{cell}</span>}
             </button>
           )
         })}
@@ -98,10 +100,7 @@ function TicTacToe() {
       </div>
 
       <p className="mt-4 text-black/55">
-        you {scores.you} · me {scores.me}
-      </p>
-      <p className="mt-1 text-xs text-black/45">
-        no draws: you keep 3 marks. the faded one goes next.
+        you {scores.you} · me {scores.me} · draws {scores.draws}
       </p>
     </div>
   )

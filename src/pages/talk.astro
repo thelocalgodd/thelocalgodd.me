@@ -1,0 +1,133 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const EMAIL = "vincent@thelocalgodd.me";
+const FIELD_CLASS =
+  "w-full border border-black/15 bg-transparent px-3 py-2 font-mono text-sm focus:border-green-700 focus:outline-none";
+---
+
+<BaseLayout
+  title="talk | Vincent."
+  description="Suggestions, work, or a hello. Send Vincent a message."
+>
+  <section>
+    <h1 class="font-display text-3xl">
+      talk to me<span class="text-green-700">.</span>
+    </h1>
+    <p class="mt-4 font-mono">
+      suggestions, questions, work, or just to say hi. my inbox is open.
+    </p>
+  </section>
+
+  <form
+    id="talk-form"
+    class="mt-8 flex max-w-md flex-col gap-4 font-mono text-sm"
+  >
+    <div class="flex flex-col gap-1">
+      <label for="talk-name">name</label>
+      <input
+        id="talk-name"
+        name="name"
+        type="text"
+        required
+        maxlength="80"
+        autocomplete="name"
+        class={FIELD_CLASS}
+      />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="talk-email">email <span class="opacity-50">(optional, so i can reply)</span></label>
+      <input
+        id="talk-email"
+        name="email"
+        type="email"
+        maxlength="254"
+        autocomplete="email"
+        class={FIELD_CLASS}
+      />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label for="talk-message">message</label>
+      <textarea
+        id="talk-message"
+        name="message"
+        required
+        maxlength="2000"
+        rows="5"
+        class={`${FIELD_CLASS} resize-y`}></textarea>
+    </div>
+    <!-- Honeypot: hidden from people and screen readers. Bots that fill it get "sent", but no email goes out. -->
+    <div aria-hidden="true" class="absolute -left-[9999px] h-px w-px overflow-hidden">
+      <label for="talk-website">website</label>
+      <input id="talk-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <button
+      type="submit"
+      class="link-underline self-start font-display text-base hover:text-green-700 disabled:opacity-50"
+    >
+      send <span class="font-mono">↗</span>
+    </button>
+    <p id="talk-status" role="status" aria-live="polite" class="min-h-5 text-xs"></p>
+  </form>
+
+  <p class="mt-8 font-mono text-xs opacity-50">or write to {EMAIL}</p>
+</BaseLayout>
+
+<script>
+  import { sendContact, type ContactResult } from "../lib/contact";
+
+  const FIELD_LABELS: Record<string, string> = { name: "name", email: "email", message: "message" };
+
+  function failureText(result: Exclude<ContactResult, { ok: true }>): string {
+    if (result.error === "validation") {
+      const fields = Object.keys(result.fields).map((field) => FIELD_LABELS[field] ?? field);
+      return fields.length > 0 ? `please check: ${fields.join(", ")}.` : "please check the form.";
+    }
+    if (result.error === "rate_limited") return "too many messages. please try again in a minute.";
+    return "could not send. please try again, or write to the email below.";
+  }
+
+  // The client router swaps the page, so bind the new form on every page load.
+  document.addEventListener("astro:page-load", () => {
+    const form = document.querySelector<HTMLFormElement>("#talk-form");
+    if (!form) return;
+    const status = form.querySelector<HTMLParagraphElement>("#talk-status");
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+    if (!status || !button) throw new Error("talk form: missing status or button");
+
+    const show = (text: string, tone: "ok" | "error") => {
+      status.textContent = text;
+      status.classList.toggle("text-green-700", tone === "ok");
+      status.classList.toggle("text-red-700", tone === "error");
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const field = (name: string) => String(data.get(name) ?? "").trim();
+      button.disabled = true;
+      show("sending...", "ok");
+      try {
+        const result = await sendContact({
+          name: field("name"),
+          email: field("email"),
+          message: field("message"),
+          website: String(data.get("website") ?? ""),
+        });
+        if (result.ok) {
+          form.reset();
+          show("sent. thanks for writing.", "ok");
+        } else {
+          if (result.error !== "validation") console.error("Contact form failed", result);
+          show(failureText(result), "error");
+        }
+      } catch (error) {
+        console.error("Contact form request failed", error);
+        show("could not send. please try again, or write to the email below.", "error");
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>

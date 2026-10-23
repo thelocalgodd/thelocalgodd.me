@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Astro writes this class into rendered Markdown (the footnotes label), where Tailwind does not scan. */
+@source inline("sr-only");
 
 /* Latin subsets from Fontsource v5.3.0 */
 @font-face {
@@ -92,7 +94,11 @@ body {
   font-family: var(--font-sans);
   color: var(--color-text);
   line-height: 1.75;
+  /* Keeps lines at a readable length; the full column is about 110 characters wide. */
+  max-width: 65ch;
 }
+/* The post header already gives space above; a leading heading should not add more. */
+.prose > :first-child { margin-top: 0; }
 .prose h1, .prose h2, .prose h3, .prose h4 {
   font-family: var(--font-display);
   margin-top: 2rem;
@@ -114,7 +120,8 @@ body {
 .prose pre {
   font-family: var(--font-mono);
   font-size: 0.875rem;
-  background-color: rgba(0,0,0,0.06);
+  /* !important beats the white inline background that Shiki writes on each block. */
+  background-color: rgba(0,0,0,0.06) !important;
   padding: 1rem 1.25rem;
   border-radius: 6px;
   overflow-x: auto;
@@ -132,6 +139,15 @@ body {
 .prose li { margin-bottom: 0.35rem; }
 .prose hr { border: none; border-top: 1px solid rgba(0,0,0,0.12); margin: 2rem 0; }
 .prose img { max-width: 100%; border-radius: 6px; }
+.prose .footnotes {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  font-size: 0.875rem;
+}
+/* The animated underline is too heavy under a single footnote number or back arrow. */
+.prose sup a,
+.prose a[data-footnote-backref] { background-image: none; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
@@ -140,4 +156,31 @@ body {
 @keyframes overlayFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+/* ── Games ───────────────────────────────────── */
+@keyframes tileIn {
+  from { opacity: 0; transform: scale(0); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes tilePop {
+  0%   { transform: scale(0.8); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+@keyframes markIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes winCell {
+  0%   { background-color: transparent; }
+  50%  { background-color: rgb(21 128 61 / 0.25); }
+  100% { background-color: rgb(21 128 61 / 0.1); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
 }

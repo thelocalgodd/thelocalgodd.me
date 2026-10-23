@@ -2,6 +2,11 @@
 import { isActivePath } from "../lib/nav"
 
 const date = new Date().getFullYear()
+
+const links = [
+  { label: "random cool stuff", href: "/random/" },
+  { label: "talk to me", href: "/talk/" },
+]
 ---
 
 <footer class="mb-6 flex flex-col md:flex-row gap-2 md:gap-0 md:items-start justify-between mt-16 font-mono">
@@ -23,15 +28,17 @@ const date = new Date().getFullYear()
       </button>
     </p>
     <ul class="mt-2">
-      <li>
-        <a
-          href="/random"
-          class="link-underline"
-          aria-current={isActivePath(Astro.url.pathname, "/random") ? "page" : undefined}
-        >
-          random cool stuff
-        </a>
-      </li>
+      {links.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class="link-underline"
+            aria-current={isActivePath(Astro.url.pathname, href) ? "page" : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
     </ul>
   </div>
   <div class="">
@@ -45,17 +52,20 @@ const date = new Date().getFullYear()
     { code: "fr", language: "French", next: "Japanese", text: "vivre une belle vie" },
   ]
 
-  const motto = document.querySelector<HTMLButtonElement>("[data-motto]")
-  const text = motto?.querySelector("[data-motto-text]")
-  const lang = motto?.querySelector("[data-motto-lang]")
-  if (!motto || !text || !lang) throw new Error("Footer: missing motto elements")
+  // The client router swaps the footer on each page change, so bind the new element every time.
+  document.addEventListener("astro:page-load", () => {
+    const motto = document.querySelector<HTMLButtonElement>("[data-motto]")
+    const text = motto?.querySelector("[data-motto-text]")
+    const lang = motto?.querySelector("[data-motto-lang]")
+    if (!motto || !text || !lang) throw new Error("Footer: missing motto elements")
 
-  let current = 0
-  motto.addEventListener("click", () => {
-    current = (current + 1) % MOTTOS.length
-    const { code, language, next, text: phrase } = MOTTOS[current]
-    text.textContent = phrase
-    lang.textContent = code
-    motto.setAttribute("aria-label", `${language}: live a beautiful life. Click to translate to ${next}.`)
+    let current = 0
+    motto.addEventListener("click", () => {
+      current = (current + 1) % MOTTOS.length
+      const { code, language, next, text: phrase } = MOTTOS[current]
+      text.textContent = phrase
+      lang.textContent = code
+      motto.setAttribute("aria-label", `${language}: live a beautiful life. Click to translate to ${next}.`)
+    })
   })
 </script>

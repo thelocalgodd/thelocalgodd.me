@@ -10,6 +10,12 @@ type Props = {
 const DESKTOP_QUERY = "(min-width: 48rem)"
 const PANEL_ID = "project-panel"
 
+const FADE_IN = "motion-safe:animate-[fadeIn_240ms_ease-out_both]"
+
+function subscribeToNothing() {
+  return () => {}
+}
+
 // The URL hash holds the selected project, so a project can be linked to (/projects/#yappp).
 function subscribeToHash(onChange: () => void) {
   window.addEventListener("hashchange", onChange)
@@ -29,6 +35,9 @@ function ProjectList({ projects }: Props) {
     () => window.location.hash.slice(1),
     () => "",
   )
+  // False in the server HTML, true once hydrated. The server cannot see the hash, so the panel
+  // stays hidden until then; otherwise a link to /projects/#x shows the first project for a moment.
+  const hydrated = useSyncExternalStore(subscribeToNothing, () => true, () => false)
   const rowRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   // On mobile only the hashed row is open. On desktop the panel always shows a project.
@@ -75,24 +84,33 @@ function ProjectList({ projects }: Props) {
                 tabIndex={selected ? 0 : -1}
                 onClick={() => select(p.id)}
                 onKeyDown={(e) => onRowKeyDown(e, i)}
-                className={`group w-full text-left py-3 pl-3 pr-1 border-l-2 transition-colors ${isOpen
-                    ? "border-green-700 bg-green-700/[0.05]"
-                    : "border-transparent hover:bg-black/[0.015]"
+                className={`group/link flex w-full items-baseline gap-4 text-left py-3 pl-3 pr-1 border-l-2 transition-colors ${isOpen
+                    ? "border-green-700"
+                    : "border-transparent hover:bg-black/[0.03]"
                   } ${selected
-                    ? "md:border-green-700 md:bg-green-700/[0.05]"
-                    : "md:border-transparent md:bg-transparent md:hover:bg-black/[0.015]"
+                    ? "md:border-green-700 md:hover:bg-transparent"
+                    : "md:border-transparent md:hover:bg-black/[0.03]"
                   }`}
               >
-                <p className={`font-display text-lg leading-tight transition-opacity ${isOpen ? "text-green-700" : "group-hover:opacity-75"} ${selected ? "md:text-green-700" : "md:text-inherit"}`}>
-                  {p.name}
-                </p>
-                <p className="text-black/55 text-xs mt-0.5">
-                  {p.tagline}
-                </p>
+                <div className="min-w-0 flex-1">
+                  <p className={`font-display text-base leading-tight ${isOpen ? "text-green-700" : ""} ${selected ? "md:text-green-700" : "md:text-inherit"}`}>
+                    <span className="link-underline">{p.name}</span>
+                  </p>
+                  <p className="text-black/55 text-xs mt-0.5">
+                    {p.tagline}
+                  </p>
+                </div>
+                {/* Hidden from md to lg, where the list column is too narrow for it. */}
+                <span className="hidden shrink-0 font-mono text-xs text-black/45 sm:inline md:hidden lg:inline">
+                  {p.category}
+                </span>
+                <span aria-hidden="true" className="w-3 shrink-0 font-mono text-xs text-black/45 md:hidden">
+                  {isOpen ? "−" : "+"}
+                </span>
               </button>
 
               {isOpen && (
-                <div className="px-3 pb-8 pt-4 md:hidden">
+                <div className={`px-3 pb-8 pt-4 md:hidden ${FADE_IN}`}>
                   <ProjectDetail project={p} />
                 </div>
               )}
@@ -105,9 +123,18 @@ function ProjectList({ projects }: Props) {
         id={PANEL_ID}
         role="tabpanel"
         aria-label={`${shown.name} details`}
-        className="hidden md:sticky md:top-8 md:block md:border-l md:border-black/10 md:pl-10 md:pt-3"
+        className="hidden md:sticky md:top-8 md:grid md:border-l md:border-black/10 md:pl-10 md:pt-3"
       >
-        <ProjectDetail key={shown.id} project={shown} />
+        {/* Every project sits in the same grid cell, so the panel is as tall as the longest one
+            and the page does not jump when the selection changes. Only the shown one is visible. */}
+        {projects.map((p) => {
+          const visible = hydrated && p.id === shown.id
+          return (
+            <div key={p.id} className={`[grid-area:1/1] ${visible ? FADE_IN : "invisible"}`}>
+              <ProjectDetail project={p} />
+            </div>
+          )
+        })}
       </section>
     </div>
   )

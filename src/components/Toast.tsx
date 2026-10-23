@@ -24,20 +24,19 @@ function Toast() {
     <div
       role="status"
       aria-live="polite"
-      className={`pointer-events-none fixed top-5 left-5 z-40 max-w-[260px] transition-all duration-300 ease-out ${
-        visible ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
-      }`}
+      className={`pointer-events-none fixed top-5 left-5 z-40 max-w-[260px] transition-all duration-300 ease-out ${visible ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
+        }`}
     >
       <div className="pointer-events-auto flex items-start gap-3 border border-black/15 bg-[#fdf0da] px-4 py-3 shadow-sm font-mono">
         <div className="text-xs leading-relaxed">
           <p>
-            i write things —{" "}
+            i write sometimes.{" "}
             <a
               href="/blog/"
               onClick={dismiss}
               className="link-underline text-green-700"
             >
-              check out the blog ↗
+              blog ↗
             </a>
           </p>
         </div>

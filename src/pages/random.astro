@@ -1,0 +1,11 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import ArcadeGame from "../components/ArcadeGame"
+---
+
+<BaseLayout title="random | Vincent." description="Random cool stuff: small games and experiments." fullscreen>
+  <h1 class="mb-6 font-display text-3xl">random cool stuff<span class="text-green-700">.</span></h1>
+  <div class="flex-1 md:min-h-0">
+    <ArcadeGame client:only="react" />
+  </div>
+</BaseLayout>

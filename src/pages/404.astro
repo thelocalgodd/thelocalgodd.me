@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro"
-import ArcadeGame from "../components/ArcadeGame"
 
 // Each character fades in at a random time, so the message assembles out of order.
 const REVEAL_WINDOW_S = 0.9
@@ -12,7 +11,6 @@ const buttonsDelay = REVEAL_WINDOW_S + 0.2
 
 <BaseLayout title="404 | Vincent." fullscreen>
   <section
-    id="not-found-message"
     class="flex flex-1 flex-col items-center justify-center gap-6 py-16 text-center"
   >
     <h1
@@ -34,32 +32,12 @@ const buttonsDelay = REVEAL_WINDOW_S + 0.2
     </h1>
 
     <div class="reveal-buttons flex flex-wrap justify-center gap-3" style={`animation-delay: ${buttonsDelay}s`}>
-      <button
-        id="play-games"
-        type="button"
-        class="h-9 rounded-[2px] border border-green-700 px-3 font-mono text-xs uppercase text-green-700 transition-colors hover:bg-green-700 hover:text-[#fdf0da]"
-      >
-        play games
-      </button>
       <a
         href="/"
         class="flex h-9 items-center rounded-[2px] border border-black/80 px-3 font-mono text-xs uppercase transition-colors hover:bg-black hover:text-[#fdf0da]"
       >
         go back home
       </a>
-    </div>
-  </section>
-
-  <section id="not-found-games" class="hidden flex-1 flex-col md:min-h-0" aria-labelledby="games-back">
-    <button
-      id="games-back"
-      type="button"
-      class="link-underline mb-6 w-fit font-mono text-sm text-green-700"
-    >
-      ‹ back.
-    </button>
-    <div class="flex-1 md:min-h-0">
-      <ArcadeGame client:only="react" />
     </div>
   </section>
 </BaseLayout>
@@ -86,25 +64,3 @@ const buttonsDelay = REVEAL_WINDOW_S + 0.2
   }
 </style>
 
-<script>
-  const message = document.getElementById("not-found-message")
-  const games = document.getElementById("not-found-games")
-  const play = document.getElementById("play-games")
-  const back = document.getElementById("games-back")
-
-  if (!message || !games || !play || !back) {
-    throw new Error("404 page: missing game toggle elements")
-  }
-
-  const showGames = (show: boolean) => {
-    message.classList.toggle("hidden", show)
-    message.classList.toggle("flex", !show)
-    games.classList.toggle("hidden", !show)
-    games.classList.toggle("flex", show)
-    if (show) back.focus()
-    else play.focus()
-  }
-
-  play.addEventListener("click", () => showGames(true))
-  back.addEventListener("click", () => showGames(false))
-</script>

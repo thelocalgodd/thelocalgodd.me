@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css"
+import { ClientRouter } from "astro:transitions"
 import Footer from "../components/Footer.astro"
 import NavBar from "../components/NavBar.astro"
 import Toast from "../components/Toast"
@@ -12,6 +13,8 @@ interface Props {
   description?: string
   /** Set on blog posts. Turns the preview into an article with a publish date. */
   publishedAt?: Date
+  /** Share image path. Blog posts pass their generated image. */
+  image?: string
 }
 
 const {
@@ -20,11 +23,12 @@ const {
   metaTitle = "thelocalgodd.me",
   description = "Personal site of thelocalgodd.",
   publishedAt,
+  image = "/meta-image.png",
 } = Astro.props
 
 if (!Astro.site) throw new Error("`site` is missing in astro.config.mjs")
 const pageUrl = new URL(Astro.url.pathname, Astro.site).href
-const imageUrl = new URL("/meta-image.png", Astro.site).href
+const imageUrl = new URL(image, Astro.site).href
 ---
 
 <!doctype html>
@@ -60,6 +64,7 @@ const imageUrl = new URL("/meta-image.png", Astro.site).href
       src="https://analytics.thelocalgodd.me/script.js"
       data-website-id="2f2afe4c-d098-4da8-9441-d82754df8753"></script>
 
+    <ClientRouter />
     <slot name="head" />
   </head>
 

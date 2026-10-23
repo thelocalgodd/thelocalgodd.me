@@ -7,14 +7,7 @@
     "category": "voice",
     "url": "https://yappp.thelocalgodd.me",
     "description": "Mobile app that pairs people into one-on-one voice conversations through a simple FIFO queue. Once matched, the server only does signaling; the audio itself is peer-to-peer WebRTC. You never get the same person twice.",
-    "stack": [
-      "react",
-      "react native",
-      "socket.io",
-      "webrtc",
-      "node",
-      "sqlite"
-    ],
+    "stack": ["react", "react native", "socket.io", "webrtc", "node", "sqlite"],
     "highlights": [
       "Signaling-only backend; media stays peer-to-peer.",
       "Permanent exclusion of previous matches.",
@@ -52,12 +45,7 @@
     "category": "maps / pwa",
     "url": "https://shuttleapp.localgodd.fun",
     "description": "Installable PWA that shows real-time positions of campus shuttles on a map. Students pick a stop or use their location, then see where the buses actually are. Built to feel native on iOS and can be added to the home screen. Roughly 500–1000 active student users.",
-    "stack": [
-      "react",
-      "vite",
-      "pwa",
-      "live map"
-    ],
+    "stack": ["react", "vite", "pwa", "live map"],
     "highlights": [
       "Live shuttle tracking with map markers for stops.",
       "Installable PWA with offline shell.",
@@ -72,11 +60,7 @@
     "category": "e-commerce",
     "url": "https://lucysperfumery.com",
     "description": "Fast SPA where people browse by brand and category and check out. Over 1,000 active users. Deployed on a custom domain with shareable product pages.",
-    "stack": [
-      "react",
-      "vite",
-      "vercel"
-    ],
+    "stack": ["react", "vite", "vercel"],
     "highlights": [
       "Brand and category browsing with a lightweight React frontend.",
       "Full checkout flow.",
@@ -91,10 +75,7 @@
     "category": "fintech / data",
     "url": "https://mulatechnologies.com",
     "description": "Platform that brings live Ghana Stock Exchange prices together with annual/quarterly reports, public notices, and headlines from major local publishers. Over 500 active users. Currently expanding the backend and has launched a developer API.",
-    "stack": [
-      "react",
-      "vite"
-    ],
+    "stack": ["react", "vite"],
     "highlights": [
       "Live GSE prices next to official filings and reports.",
       "Aggregated Ghana business news.",
@@ -108,11 +89,9 @@
     "year": "2026",
     "category": "personal",
     "url": "https://ganya.thelocalgodd.me",
-    "description": "In-progress personal tool. Subdomain of thelocalgodd.me.",
+    "description": "In-progress subscription tracking tool.",
     "stack": [],
-    "highlights": [
-      "In progress."
-    ]
+    "highlights": ["In progress."]
   },
   {
     "id": "resu",
@@ -121,10 +100,8 @@
     "year": "2026",
     "category": "personal",
     "url": "https://resu.thelocalgodd.me",
-    "description": "In-progress resume workspace. Subdomain of thelocalgodd.me.",
+    "description": "In-progress resume builder.",
     "stack": [],
-    "highlights": [
-      "In progress."
-    ]
+    "highlights": ["In progress."]
   }
 ]

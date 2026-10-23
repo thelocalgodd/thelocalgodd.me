@@ -7,14 +7,11 @@ export interface Win {
   line: number[]
 }
 
-// Cells each player holds, oldest first.
+// Cells each player holds, in play order.
 export interface Moves {
   x: number[]
   o: number[]
 }
-
-// Each player keeps this many marks; a new mark removes their oldest one, so no round ends in a draw.
-export const MARKS_KEPT = 3
 
 const LINES = [
   [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -50,6 +47,10 @@ export function getWinner(board: Board): Win | null {
   return null
 }
 
+export function isDraw(board: Board): boolean {
+  return getWinner(board) === null && board.every((cell) => cell !== null)
+}
+
 // x always starts, so x is to move whenever both have played the same number of times.
 export function nextMark(moves: Moves): Mark {
   return moves.x.length <= moves.o.length ? 'x' : 'o'
@@ -57,14 +58,7 @@ export function nextMark(moves: Moves): Mark {
 
 export function play(moves: Moves, index: number, mark: Mark): Moves {
   if (toBoard(moves)[index] !== null) return moves
-  const own = [...moves[mark], index]
-  return { ...moves, [mark]: own.length > MARKS_KEPT ? own.slice(1) : own }
-}
-
-// The cell that disappears on this player's next move.
-export function vanishingCell(moves: Moves, mark: Mark): number | null {
-  if (moves[mark].length < MARKS_KEPT) return null
-  return moves[mark][0]
+  return { ...moves, [mark]: [...moves[mark], index] }
 }
 
 function freeCells(moves: Moves): number[] {
