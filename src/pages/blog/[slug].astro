@@ -1,7 +1,7 @@
 ---
 import { render } from "astro:content"
 import BaseLayout from "../../layouts/BaseLayout.astro"
-import { formatPostDate, getAllPosts, type Post } from "../../lib/blog"
+import { formatPostDate, getAllPosts, readingTime, type Post } from "../../lib/blog"
 
 export async function getStaticPaths() {
   const posts = await getAllPosts()
@@ -19,7 +19,12 @@ const { post } = Astro.props
 const { Content } = await render(post)
 ---
 
-<BaseLayout title={`${post.data.title} | Vincent.`}>
+<BaseLayout
+  title={`${post.data.title} | Vincent.`}
+  metaTitle={post.data.title}
+  description={post.data.description}
+  publishedAt={post.data.date}
+>
   <article>
     <header class="mb-8">
       <a href="/blog/" class="link-underline font-mono text-sm text-green-700">
@@ -28,7 +33,7 @@ const { Content } = await render(post)
       <div class="mt-4 flex items-baseline justify-between gap-4">
         <h1 class="font-display text-3xl">{post.data.title}</h1>
         <p class="font-mono text-xs opacity-50 shrink-0">
-          {formatPostDate(post.data.date)}
+          {formatPostDate(post.data.date)} · {readingTime(post)}
         </p>
       </div>
       {post.data.tags.length > 0 && (

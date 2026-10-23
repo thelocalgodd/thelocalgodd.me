@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { formatPostDate, getAllPosts } from "../../lib/blog";
+import { formatPostDate, getAllPosts, readingTime } from "../../lib/blog";
 
 const posts = await getAllPosts();
 ---
@@ -37,7 +37,7 @@ const posts = await getAllPosts();
                 </p>
               </div>
               <span class="font-mono text-xs text-black/45 group-hover:text-green-700 transition-colors shrink-0 pt-1 hidden sm:inline">
-                {formatPostDate(post.data.date)}
+                {formatPostDate(post.data.date)} · {readingTime(post)}
               </span>
             </a>
           </li>
