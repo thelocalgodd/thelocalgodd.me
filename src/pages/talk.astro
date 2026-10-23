@@ -70,7 +70,8 @@ const FIELD_CLASS =
     <p id="talk-status" role="status" aria-live="polite" class="min-h-5 text-xs"></p>
   </form>
 
-  <p class="mt-8 font-mono text-xs opacity-50">or write to {EMAIL}</p>
+  <!-- Keep Cloudflare from hiding the address; its decode script does not run again after a client-side page change. -->
+  <p class="mt-8 font-mono text-xs opacity-50">or write to <!--email_off-->{EMAIL}<!--/email_off--></p>
 </BaseLayout>
 
 <script>

@@ -1,0 +1,14 @@
+# Replaces the Caddyfile that Nixpacks' Node SPA provider writes to /assets.
+# With its `try_files {path} /index.html`, a directory such as /blog/ did not match on the live server,
+# so every page got the home page's index.html. `{path}index.html` serves dist/blog/index.html for /blog/.
+# Kept to directives every Caddy 2.x knows, because the Caddy version Nixpacks installs is not pinned here.
+# Root and env var are the same as the provider template (railwayapp/nixpacks src/providers/node/spa/Caddyfile).
+[staticAssets]
+Caddyfile = '''
+:{$PORT:3000} {
+	root * ../app/{$NIXPACKS_SPA_OUTPUT_DIR}
+	encode gzip
+	file_server
+	try_files {path} {path}index.html /index.html
+}
+'''

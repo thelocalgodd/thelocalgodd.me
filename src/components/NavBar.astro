@@ -33,5 +33,6 @@ const links = [
     </ul>
   </div>
   <div></div>
-  <Socials client:load />
+  <!-- Cloudflare email obfuscation would rewrite the mailto link and break React hydration. -->
+  <!--email_off--><Socials client:load /><!--/email_off-->
 </nav>

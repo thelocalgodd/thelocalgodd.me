@@ -5,7 +5,7 @@ import { FaGithub, FaLinkedin, FaEnvelope, FaFilePdf, FaShareNodes } from "react
 const socials: { label: string; href: string; Icon: IconType }[] = [
   { label: "github", href: "https://github.com/thelocalgodd", Icon: FaGithub },
   { label: "linkedin", href: "https://linkedin.com/in/vkkpemlie/", Icon: FaLinkedin },
-  { label: "email", href: "mailto:splashvincentk@gmail.com", Icon: FaEnvelope },
+  { label: "email", href: "mailto:vincent@thelocalgodd.me", Icon: FaEnvelope },
   { label: "resume", href: "/vkkpemlie_resume.pdf", Icon: FaFilePdf },
 ]
 
