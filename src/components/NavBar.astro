@@ -1,0 +1,33 @@
+---
+import Socials from "./Socials"
+import { isActivePath } from "../lib/nav"
+
+const links = [
+  { label: "blog", href: "/blog/" },
+  { label: "projects", href: "/projects/" },
+]
+---
+
+<nav class="mb-6 flex items-center justify-between rounded-full md:pt-16 font-mono">
+  <div class="flex items-center gap-6">
+    <a class="text-green-600 hover:opacity-75 transition-opacity" href="/">
+      Vincent.
+    </a>
+    <ul class="flex items-center gap-4">
+      {links.map(({ label, href }) => (
+        <li>
+          <a
+            class={isActivePath(Astro.url.pathname, href)
+              ? "underline decoration-1 underline-offset-4"
+              : "hover:opacity-75"}
+            href={href}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div />
+  <Socials client:load />
+</nav>

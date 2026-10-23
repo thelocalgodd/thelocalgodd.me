@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import ProjectList from "../components/ProjectList"
+import { getAllProjects } from "../lib/projects"
+
+const projects = await getAllProjects()
+---
+
+<BaseLayout title="Projects | Vincent.">
+  <section class="pt-2">
+    <p class="font-mono text-sm">
+      some stuff I have worked on
+    </p>
+  </section>
+
+  <section class="mt-10 pb-10">
+    <ProjectList client:load projects={projects} />
+  </section>
+</BaseLayout>

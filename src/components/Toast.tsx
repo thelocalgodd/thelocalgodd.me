@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 
 const STORAGE_KEY = "toast:check-out-blog"
 
@@ -36,13 +35,13 @@ function Toast() {
           </p>
           <p className="mt-1">
             i write things —{" "}
-            <Link
-              to="/blog"
+            <a
+              href="/blog/"
               onClick={dismiss}
               className="text-green-700 underline-offset-2 hover:underline"
             >
               check out the blog {"->"}
-            </Link>
+            </a>
           </p>
         </div>
         <button

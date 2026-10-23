@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+import ArcadeGame from "../components/ArcadeGame"
+---
+
+<BaseLayout title="404 | Vincent.">
+  <section class="flex min-h-[20vh] flex-col justify-center gap-4">
+    <p class="font-mono text-sm text-green-700">404.</p>
+    <h1 class="font-display text-3xl italic">This page wandered off.</h1>
+    <p class="max-w-xl text-sm opacity-75">
+      The route you tried does not exist here yet.
+    </p>
+    <a class="font-mono text-sm hover:opacity-75" href="/">
+      return home.
+    </a>
+  </section>
+
+  <section class="mt-12">
+    <ArcadeGame client:only="react" />
+  </section>
+</BaseLayout>

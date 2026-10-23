@@ -11,6 +11,15 @@ node_modules
 dist
 dist-ssr
 *.local
+coverage
+
+# Astro generated types
+.astro/
+
+# Environment
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +34,6 @@ dist-ssr
 
 # claude
 .claude/
+CLAUDE.md
+AGENTS.md
+docs/

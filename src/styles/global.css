@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'Inter';
-  src: url('./assets/fonts/Inter.ttf') format('truetype');
+  src: url('../assets/fonts/Inter.ttf') format('truetype');
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: 'Playfair Display';
-  src: url('./assets/fonts/PlayfairDisplay.ttf') format('truetype');
+  src: url('../assets/fonts/PlayfairDisplay.ttf') format('truetype');
   font-style: normal;
   font-weight: 400 900;
   font-display: swap;
@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: 'Iosevka Charon';
-  src: url('./assets/fonts/IosevkaCharon.ttf') format('truetype');
+  src: url('../assets/fonts/IosevkaCharon.ttf') format('truetype');
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
@@ -42,10 +42,6 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
-}
-
-#root {
-  min-height: 100vh;
 }
 
 /* ── Markdown prose ──────────────────────────── */

@@ -1,3 +1,4 @@
+import { getCollection } from 'astro:content'
 import projectsData from '../content/projects/projects.json'
 
 export interface Project {
@@ -12,8 +13,12 @@ export interface Project {
   highlights: string[]
 }
 
-const projects = projectsData as Project[]
+// getCollection does not keep file order; the JSON order is the display order.
+const fileOrder = projectsData.map((project) => project.id)
 
-export function getAllProjects(): Project[] {
-  return projects
+export async function getAllProjects(): Promise<Project[]> {
+  const entries = await getCollection('projects')
+  return entries
+    .sort((a, b) => fileOrder.indexOf(a.id) - fileOrder.indexOf(b.id))
+    .map((entry) => ({ ...entry.data, id: entry.id }))
 }

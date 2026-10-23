@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import { formatPostDate, getAllPosts } from "../../lib/blog"
+
+const posts = await getAllPosts()
+---
+
+<BaseLayout title="Blog | Vincent.">
+  <section class="pt-2">
+    <p class="font-mono text-sm">
+      i try to write as much as i can about random topics.
+      this blog is of random words, thoughts and ideas.
+    </p>
+  </section>
+
+  <section class="mt-10 pb-10">
+    {posts.length === 0 && (
+      <p class="font-mono text-sm opacity-50">no posts yet.</p>
+    )}
+
+    <ul class="">
+      {posts.map((post, i) => (
+        <li class="border-b border-black/10">
+          <a
+            href={`/blog/${post.id}/`}
+            class="group w-full text-left py-2 flex items-baseline gap-5 hover:bg-black/[0.015] transition-colors px-1 -mx-1"
+          >
+            <span class="font-mono text-[11px] text-black/40 group-hover:text-green-700 transition-colors w-6 shrink-0 pt-1">
+              0{i + 1}
+            </span>
+            <div class="flex-1 min-w-0">
+              <p class="font-display leading-tight">
+                {post.data.title}
+                {" "}
+                <span class="italic text-black/55 text-[12px]">
+                  {post.data.description}
+                </span>
+              </p>
+            </div>
+            <span class="font-mono text-[11px] text-black/45 group-hover:text-green-700 transition-colors shrink-0 pt-1 hidden sm:inline">
+              {formatPostDate(post.data.date)}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>

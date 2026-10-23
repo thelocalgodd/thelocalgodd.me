@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro"
+---
+
+<BaseLayout title="Vincent.">
+  <!--
+    Nixpacks serves this file for every path that is not a file or a "/"-ending
+    directory. Add the missing slash, or send the visitor to the 404 page.
+  -->
+  <script is:inline slot="head">
+    (function () {
+      const path = window.location.pathname
+      if (path === "/" || path === "/index.html") return
+      if (path.endsWith("/")) {
+        window.location.replace("/404.html")
+      } else {
+        window.location.replace(path + "/" + window.location.search + window.location.hash)
+      }
+    })()
+  </script>
+
+  <section>
+    <p class="font-display text-2xl">
+      Vincent Kwaku{" "}
+      <span class="italic">
+        Kpemlie<span class="text-green-700">.</span>
+      </span>
+    </p>
+    <div>
+      <p class="font-mono">
+        <span class="text-green-700">{"[ "}</span>Software Developer
+        <span class="text-green-700">{" ]"}</span>
+      </p>
+    </div>
+    <div />
+  </section>
+
+  <section class="py-8 font-mono">
+    <p>I build beautiful interfaces and systems.</p>{" "}
+    <p>experienced in building beautiful, functional web based applications.</p>
+  </section>
+
+  <section class="flex flex-col">
+    <a
+      href="/projects/"
+      class="hover:underline transition-all delay-300 font-display text-sm italic"
+    >
+      see my projects {"->"}
+    </a>
+    <a
+      href="/blog/"
+      class="hover:underline transition-all delay-300 font-display text-sm italic"
+    >
+      see my blog {"->"}
+    </a>
+    <a
+      href="/vkkpemlie_resume.pdf"
+      class="hover:underline transition-all delay-300 font-display text-sm italic"
+    >
+      {"->"} check out my resume{" "}
+    </a>
+  </section>
+</BaseLayout>
