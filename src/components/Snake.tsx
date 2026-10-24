@@ -8,6 +8,7 @@ import {
   type Point,
   type SnakeState,
 } from "../lib/games/snake"
+import GameOverlay from "./GameOverlay"
 
 const SIZE = 15
 const TICK_MS = 140
@@ -154,6 +155,15 @@ function Snake() {
         >
           <span className="h-[50%] w-[50%] rounded-full bg-black/80 motion-safe:animate-[tileIn_200ms_ease-out_both]" />
         </div>
+        {game.status === "over" && (
+          <GameOverlay
+            result="game over."
+            detail={`score ${game.score}`}
+            actions={[{ label: "play again", onClick: restart }]}
+            // Lets the shake play first.
+            delayMs={300}
+          />
+        )}
       </div>
       </div>
 
@@ -174,15 +184,6 @@ function Snake() {
             </button>
           ))}
         </div>
-        {game.status === "over" && (
-          <button
-            type="button"
-            onClick={restart}
-            className="link-underline font-display text-base hover:text-green-700"
-          >
-            play again <span className="font-mono">↗</span>
-          </button>
-        )}
       </div>
     </div>
   )

@@ -1,12 +1,14 @@
 import { useState } from "react"
 import Game2048 from "./Game2048"
 import Snake from "./Snake"
+import Sudoku from "./Sudoku"
 import TicTacToe from "./TicTacToe"
 
 const GAMES = [
   { id: "tic-tac-toe", label: "tic tac toe" },
   { id: "snake", label: "snake" },
   { id: "2048", label: "2048" },
+  { id: "sudoku", label: "sudoku" },
 ] as const
 
 type GameId = (typeof GAMES)[number]["id"]
@@ -35,6 +37,7 @@ function ArcadeGame() {
         {game === "tic-tac-toe" && <TicTacToe />}
         {game === "snake" && <Snake />}
         {game === "2048" && <Game2048 />}
+        {game === "sudoku" && <Sudoku />}
       </div>
     </div>
   )

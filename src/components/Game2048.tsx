@@ -6,6 +6,7 @@ import {
   type Direction,
   type Game2048State,
 } from "../lib/games/game2048"
+import GameOverlay from "./GameOverlay"
 
 const SIZE = 4
 const SWIPE_PX = 24
@@ -154,6 +155,20 @@ function Game2048() {
             </div>
           ))}
         </div>
+        {game.status === "won" && (
+          <GameOverlay
+            result="you made 2048."
+            detail={`score ${game.score}`}
+            actions={[{ label: "keep going", onClick: goOn }, { label: "play again", onClick: restart }]}
+          />
+        )}
+        {game.status === "over" && (
+          <GameOverlay
+            result="no moves left."
+            detail={`score ${game.score}`}
+            actions={[{ label: "play again", onClick: restart }]}
+          />
+        )}
       </div>
       </div>
 
@@ -174,24 +189,6 @@ function Game2048() {
             </button>
           ))}
         </div>
-        {game.status === "won" && (
-          <button
-            type="button"
-            onClick={goOn}
-            className="link-underline font-display text-base hover:text-green-700"
-          >
-            keep going <span className="font-mono">↗</span>
-          </button>
-        )}
-        {game.status !== "playing" && (
-          <button
-            type="button"
-            onClick={restart}
-            className="link-underline font-display text-base hover:text-green-700"
-          >
-            play again <span className="font-mono">↗</span>
-          </button>
-        )}
       </div>
     </div>
   )

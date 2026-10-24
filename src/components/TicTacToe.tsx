@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
+import GameOverlay from "./GameOverlay"
 import {
   computerMove,
   emptyMoves,
@@ -24,7 +25,6 @@ function scoreMoves(moves: Moves, scores: Scores): Scores {
 function TicTacToe() {
   const [moves, setMoves] = useState<Moves>(emptyMoves)
   const [scores, setScores] = useState<Scores>({ you: 0, me: 0, draws: 0 })
-  const playAgainRef = useRef<HTMLButtonElement>(null)
 
   const board = toBoard(moves)
   const win = getWinner(board)
@@ -40,10 +40,6 @@ function TicTacToe() {
     }, COMPUTER_DELAY_MS)
     return () => window.clearTimeout(timer)
   }, [moves, computerTurn])
-
-  useEffect(() => {
-    if (over) playAgainRef.current?.focus()
-  }, [over])
 
   function choose(index: number) {
     if (over || computerTurn || board[index] !== null) return
@@ -81,20 +77,7 @@ function TicTacToe() {
         })}
 
         {over && (
-          <div
-            className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[#fdf0da]/85 backdrop-blur-[1px]"
-            style={{ animation: "overlayFadeIn 180ms ease-out both" }}
-          >
-            <p className="font-display text-lg md:text-[min(7cqw,7cqh)]">{result}</p>
-            <button
-              ref={playAgainRef}
-              type="button"
-              onClick={() => setMoves(emptyMoves())}
-              className="link-underline font-display text-base hover:text-green-700 md:text-[min(4cqw,4cqh)]"
-            >
-              play again <span className="font-mono">↗</span>
-            </button>
-          </div>
+          <GameOverlay result={result} actions={[{ label: "play again", onClick: () => setMoves(emptyMoves()) }]} />
         )}
       </div>
       </div>
